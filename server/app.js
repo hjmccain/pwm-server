@@ -17,17 +17,17 @@ app.use((req, res, next) => {
 // COMPONENT TWO: EXPRESS MIDDLEWARE
 app.post('/feedback', (req, res) => {
   const userData = Object.assign({}, req.body, { date: moment().format() });
-  res.status(201).send('Hi welcome u made it');
-  // const postToDB = new Promise((resolve, reject) => {
-  //   con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
-  //     err ? reject() : resolve();
-  //   });
-  // });
-  //
-  // postToDB.then(() => res.sendStatus(201))
-  //   .catch(() => {
-  //     res.status(503).send('Warning! The data was not saved.');
-  //   });
+
+  const postToDB = new Promise((resolve, reject) => {
+    con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
+      err ? reject() : resolve();
+    });
+  });
+  
+  postToDB.then(() => res.sendStatus(201))
+    .catch(() => {
+      res.status(503).send('Warning! The data was not saved.');
+    });
 });
 
 module.exports = app;
