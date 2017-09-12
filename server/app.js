@@ -24,6 +24,7 @@ app.use((req, res, next) => {
 
 // COMPONENT TWO: EXPRESS MIDDLEWARE
 app.post('/feedback', (req, res) => {
+  console.log('POST request received.');
   const userData = Object.assign({}, req.body, { date: moment().format() });
 
   const postToDB = new Promise((resolve, reject) => {
