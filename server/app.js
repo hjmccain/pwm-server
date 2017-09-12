@@ -31,7 +31,7 @@ app.post('/feedback', (req, res) => {
 
   postToDB.then(() => res.sendStatus(201))
     .catch(() => {
-      res.status(200).send('Warning! The data was not saved.');
+      res.status(503).send('Warning! The data was not saved.');
     })
 });
 
