@@ -21,17 +21,17 @@ app.use((req, res, next) => {
 app.post('/feedback', (req, res) => {
   console.log(`POST request received at ${Date.now()}`);
   const userData = Object.assign({}, req.body, { date: moment().format() });
-
-  const postToDB = new Promise((resolve, reject) => {
-    con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
-      err ? reject() : resolve();
-    });
-  });
-
-  postToDB.then(() => res.sendStatus(201))
-    .catch(() => {
-      res.status(200).send('Warning! The data was not saved.');
-    })
+  res.sendStatus(201)
+  // const postToDB = new Promise((resolve, reject) => {
+  //   con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
+  //     err ? reject() : resolve();
+  //   });
+  // });
+  //
+  // postToDB.then(() => res.sendStatus(201))
+  //   .catch(() => {
+  //     res.status(200).send('Warning! The data was not saved.');
+  //   })
 });
 
 module.exports = app;
