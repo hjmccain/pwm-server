@@ -24,13 +24,14 @@ app.post('/feedback', (req, res) => {
 
   const postToDB = new Promise((resolve, reject) => {
     con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
+      err = true;
       err ? reject() : resolve();
     });
   });
 
-  postToDB.then(() => res.sendStatus(200))
+  postToDB.then(() => res.sendStatus(201))
     .catch(() => {
-      res.status(500).send('Warning! The data was not saved.');
+      res.status(200).send('Warning! The data was not saved.');
     })
 });
 
