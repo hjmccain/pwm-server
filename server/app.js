@@ -6,9 +6,6 @@ const moment = require('moment');
 const app = express();
 const con = require('./connection');
 
-console.log('Node app running');
-// console.log(process.env.CLEARDB_DATABASE_URL);
-
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -19,19 +16,18 @@ app.use((req, res, next) => {
 
 // COMPONENT TWO: EXPRESS MIDDLEWARE
 app.post('/feedback', (req, res) => {
-  console.log(`POST request received at ${Date.now()}`);
   const userData = Object.assign({}, req.body, { date: moment().format() });
-  res.sendStatus(201)
-  // const postToDB = new Promise((resolve, reject) => {
-  //   con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
-  //     err ? reject() : resolve();
-  //   });
-  // });
-  //
-  // postToDB.then(() => res.sendStatus(201))
-  //   .catch(() => {
-  //     res.status(200).send('Warning! The data was not saved.');
-  //   })
+
+  const postToDB = new Promise((resolve, reject) => {
+    con.query('INSERT INTO user_data SET ?', userData, (err, res) => {
+      err ? reject() : resolve();
+    });
+  });
+
+  postToDB.then(() => res.sendStatus(201))
+    .catch(() => {
+      res.status(503).send('Warning! The data was not saved.');
+    })
 });
 
 module.exports = app;
