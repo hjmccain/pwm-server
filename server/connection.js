@@ -1,5 +1,7 @@
 const mysql = require('mysql');
 
+console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
+
 const con = process.env.NODE_ENV === 'development' ?
 mysql.createConnection({
   host: 'localhost',
